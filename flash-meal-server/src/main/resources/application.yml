@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: flash-meal-server
+
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: ${meal.datasource.driver-class-name}
+    url: jdbc:postgresql://${meal.datasource.host}:${meal.datasource.port}/${meal.datasource.database}?currentSchema=public
+    username: ${meal.datasource.username}
+    password: ${meal.datasource.password}
+  data:
+    redis:
+      host: ${spring.data.redis.host}
+      port: ${spring.data.redis.port}
+      database: ${spring.data.redis.database}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      wtc:
+        mapper: debug
+        service: info
+        controller: info
+
+meal:
+  jwt:
+    admin-secret-key: admin
+    admin-ttl: 7200000
+    admin-token-name: token
+
+    user-secret-key: user
+    user-ttl: 7200000
+    user-token-name: authentication
+  s3:
+    endpoint: ${meal.s3.endpoint}
+    access-key-id: ${meal.s3.access-key-id}
+    access-key-secret: ${meal.s3.access-key-secret}
+    bucket-name: ${meal.s3.bucket-name}
+  wechat:
+    appid: ${meal.wechat.appid}
+    secret: ${meal.wechat.secret}
